@@ -7,36 +7,11 @@ import random
 def intro():
     print("Welcome to your RPG Character Manager\nView and modify all your characters' information, skills and attributes\nTo choose what you want to do, type the corresponding number on the menus\n")
 
-# attribute assigner
-def attribute_assigner(attribute, random_num1, random_num2):
-    attribute = random.randint(random_num1, random_num2)
-    return attribute
+# 3 premade characters
+database = {
+    "Zarkon":{"simpleinfo":["Dragonborn", "Fighter", 8], "inventory": {"Weapons": ["Shortsword", "3"]}, "skills":({"Fireball":"A bright streak flashes from the caster to a point within 150 feet, erupting into a 20-foot-radius sphere of fire!"}, ), "attributes": [["strength"],[random.randint(8, 18)]][["dexterity"],[random.randint(8, 18)]][["intelligence"],[random.randint(8, 18)]][["wisdom"],[random.randint(8, 18)]][["constitution"],[random.randint(8, 18)]][["health"],[random.randint(8, 15)]][["armor class"],[random.randint(10, 17)]][["charisma"],[random.randint(8, 18)]]},
 
-first_premade_character = {
-    "info": {
-        "name": "Zarkon",
-        "race": "Dragonborn",
-        "class": "Fighter",
-        "level": 4,
-    },
-    "inventory": {
-        "item name": "value"
-    },
-    "skills": {
-        "strength": attribute_assigner("Strength", 8, 18),
-        "dexterity": attribute_assigner("Dexterity", 8, 18),
-        "intelligence": attribute_assigner("Intelligence", 8, 18),
-        "wisdom": attribute_assigner("Wisdom", 8, 18),
-        "constitution": attribute_assigner("Constitution", 8, 18),
-        "health": attribute_assigner("Health", 8, 15),
-        "armor_class": attribute_assigner("Armor Class", 10, 17),
-        "charisma": attribute_assigner("Charisma", 8, 18),
-    },
-    "attributes": {
-        "attributes": "values"
-    }
+    "Gulnum":{"simpleinfo":["Gnome", "Sorcerer", 4], "inventory": {"Weapons": ["Mace", "5"]}, "skills":({"SKILL_PLACEHOLDER":"SKILL PLACEHOLDER DESCRIPTION"}, ), "attributes": [["strength"],[random.randint(8, 18)]][["dexterity"],[random.randint(8, 18)]][["intelligence"],[random.randint(8, 18)]][["wisdom"],[random.randint(8, 18)]][["constitution"],[random.randint(8, 18)]][["health"],[random.randint(8, 15)]][["armor class"],[random.randint(10, 17)]][["charisma"],[random.randint(8, 18)]]},
+
+    "Zylvina":{"simpleinfo":["Elf", "Cleric", 13], "inventory": {"Weapons": ["Whip", "3"]}, "skills":({"SKILL_PLACEHOLDER":"SKILL PLACEHOLDER DESCRIPTION"}, ), "attributes": [["strength"],[random.randint(8, 18)]][["dexterity"],[random.randint(8, 18)]][["intelligence"],[random.randint(8, 18)]][["wisdom"],[random.randint(8, 18)]][["constitution"],[random.randint(8, 18)]][["health"],[random.randint(8, 15)]][["armor class"],[random.randint(10, 17)]][["charisma"],[random.randint(8, 18)]]}
 }
-
-"""database = {"name":{"simpleinfo":["Name", "race", "class", "level"], "inventory":{Itemslot:["item name", ”values”]}, "skills":({skillname:skilldesc}, ), "attributes":[["attributes"], ["values"]]},
-            "second character":{"info":"placeholder"}
-            }"""
