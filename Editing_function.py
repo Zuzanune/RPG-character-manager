@@ -1,28 +1,25 @@
-statlist = ["strength", "dexterity", "constitution", "intelligence", "wisdom", "charisma"]
-stattotal = ["10", "10", "10", "10", "10", "10"]
-skills = set({("Fireball", "you cast fireball. 6d6 fire damage"), ("mage hand", "you cast mage hand. a spectral floating hand appears, controllable by you.")})
-Items_Dictonaties = {"Weapon":["Sword","Weapon","none"],"Armor":["Iron armor","Armor","none"],"Inventory":["daggers","Weapon","Rouge","staff","Weapon","None"]}
-def EditSkills():
+def EditSkills(database, character_name):
         action = input("Would you like to add or remove a skill? ").lower().strip()
         if action == "add":
             skillname = input("Enter the name of the skill you want to add: ").capitalize().strip()
             skilldesc = input("Enter a description for the skill: ").strip()
-            skills.add((skillname, skilldesc))
+            database[character_name]["skills"].add((skillname, skilldesc))
             print(f"Skill '{skillname}' has been added.")
                 
         elif action == "remove":
-            for i in skills:
+            for i in database[character_name]["skills"]:
                 print(f"- {i[0]}")
             skillToRemove = input("Enter the name of the skill you want to remove: ").capitalize().strip()
-            skill_to_remove = next((skill for skill in skills if skill[0] == skillToRemove), None)
+            skill_to_remove = next((skill for skill in database[character_name]["skills"] if skill[0] == skillToRemove), None)
             if skill_to_remove:
-                skills.remove(skill_to_remove)
+                database[character_name]["skills"].remove(skill_to_remove)
                 print(f"Skill '{skillToRemove}' has been removed.")
             else:
                 print(f"Skill '{skillToRemove}' not found in your skills.")
 
 
-def inventory_management(Items_Dictonaties,player_class):
+def inventory_management(database, character_name, player_class):
+    Items_Dictonaties = database[character_name]["Items_Dictionary"]
     print(f"Your charaters weapon is a {Items_Dictonaties["Weapon"][0]}")
     print(f"Your charaters is wearing {Items_Dictonaties["Armor"][0]} ")
     print(f"This is your inventory:")
@@ -89,21 +86,20 @@ def inventory_management(Items_Dictonaties,player_class):
                             val = 0
             if players_selected_action == "3":
                 asking = False
-            
 
 
-def editing():
+def editing(database, character_name):
 
 
     def displaystat(num):
-        oldstat = stattotal[num]
-        stattotal[num] = newStatValue
+        oldstat = database[character_name]["attributes"][1][num]
+        database[character_name]["attributes"][1][num] = newStatValue
         print(f"{statToEdit.capitalize()} has been updated from {oldstat} to {newStatValue}.")
 
     while True:
         editC = input("Are you editing  1. Stats, 2. Skills, or 3. Inventory, or do you want to  4. quit:  ").lower().strip()
         if editC == "stats" or editC == "1":
-            changableStats = ["strength", "dexterity", "constitution", "intelligence", "wisdom", "charisma"]
+            changableStats = database[character_name]["attributes"][0]
             print("available stats are as follows")
             for x in changableStats:
                 print (f" - {x}")
@@ -130,10 +126,9 @@ def editing():
 
 
         elif editC == "skills" or editC == "2":
-            EditSkills()
+            EditSkills(database, character_name)
         elif editC == "inventory" or editC == "3":
-            inventory_management(Items_Dictonaties,"None")
+            inventory_management(database, character_name, "None")
         else:
             break
 
-editing()
