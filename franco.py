@@ -2,7 +2,7 @@
 import sys
 
 def validate_input(text, kind='int'):
-    s = str(text).strip()
+    s = str(text).strip().capitalize()
     if kind == 'int':
         try:
             int(s)
@@ -22,7 +22,7 @@ def validate_input(text, kind='int'):
     
 def inputchecker(rangeofchoices):
     while True:
-            choicevar = input(f"Which one would you like to choose?(1~{rangeofchoices}):\n")
+            choicevar = input(f"Which one would you like to choose?(1~{rangeofchoices}):\n").strip().capitalize()
             try:
                 choicevar = int(choicevar)
                 if choicevar in range(1, rangeofchoices+1):

@@ -28,11 +28,11 @@ def inventory_management(Items_Dictonaties,player_class):
             print(x)
         if val == 3:
             val = 0
-    Player_answer = input("Would you like to Edit you inventory(1.Yes 2.No):")
-    if Player_answer == "1" or Player_answer == "yes":
+    Player_answer = input("Would you like to Edit you inventory(1.Yes 2.No):").capitalize().strip()
+    if Player_answer == "1" or Player_answer == "Yes":
         asking = True
         while asking:
-            players_selected_action = input("Would you like to (1.edit your inevntory 2.Add a item to your inventory 3.To exit):")
+            players_selected_action = input("Would you like to (1.edit your inevntory 2.Add a item to your inventory 3.To exit):").capitalize().strip()
             if players_selected_action == "1":
                 answering = True
                 while answering:
@@ -42,7 +42,7 @@ def inventory_management(Items_Dictonaties,player_class):
                             print(x)
                         if val == 3:
                             val = 0
-                    Edit_item = input("What item in your inventory do you want to edit:")
+                    Edit_item = input("What item in your inventory do you want to edit:").capitalize().strip()
                     if Edit_item in Items_Dictonaties["Inventory"]:
                         Item_index = Items_Dictonaties["Inventory"].index(Edit_item)
                         Item_slot = Items_Dictonaties["Inventory"][Item_index + 1]
@@ -70,12 +70,11 @@ def inventory_management(Items_Dictonaties,player_class):
                     else:
                         print("that is not an item in your inventory")
             if players_selected_action == "2":
-                player_item_name = input("What is the name of the item:")
+                player_item_name = input("What is the name of the item:").capitalize().strip()
                 Items_Dictonaties["Inventory"].append(player_item_name)
-                player_item_slot = input("What is the slot of the item(Inventory,Weapon,Armor):")
+                player_item_slot = input("What is the slot of the item(Inventory,Weapon,Armor):").capitalize().strip()
                 Items_Dictonaties["Inventory"].append(player_item_slot)
-                player_item_class = input("What is the required class of the item(If no required one then type None):")
-                Items_Dictonaties["Inventory"].append(player_item_class)
+                player_item_class = input("What is the required class of the item(If no required one then type None):").capitalize().strip()
                 for x in Items_Dictonaties["Inventory"]:
                         val += 1
                         if val == 1:
