@@ -121,7 +121,8 @@ def sortchoice(data):
             distinctraces = sortoptions(data, 0)
             racechoice = inputchecker(len(distinctraces))
         case 3:
-            pass
+            distinctlevels = sortoptions(data, 2)
+            levelchoice = inputchecker(len(distinctraces))
 
 def createcharacters(data):
     while True:
