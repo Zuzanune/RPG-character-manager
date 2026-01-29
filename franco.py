@@ -35,7 +35,6 @@ def inputchecker(rangeofchoices):
             
     return choicevar
 
-
 def viewchars(data):
     characterkeys = database.keys()
     characternameandlistnum = {}
@@ -55,7 +54,7 @@ def viewchars(data):
         case 1:
             select(data,characternameandlistnum)
         case 2:
-            sort(data)
+            sortchoice(data)
         case 3:
             mainmenu(data)
 
@@ -71,14 +70,77 @@ def select(data, selectionmenu):
 
         item = data[character]["inventory"][itemslot]
         print(f"{itemslot} : {item[0]} it {item[1]}, and only a {item[2]} can use it!")
-
     
+    for skill in data[character]["skills"]:
+        print(f"{skill[0]} it {skill[1]}")
+    
+    count = 0
+    for attribute in data[character]["attributes"][0]:
+        print(f"{attribute} : {data[character]["attributes"][1][count]}")
+        count += 1
 
-def sort(data):
+    print("Would you like to:\n1. edit\n2. main menu?")
+
+    answer = inputchecker(2)
+
+    match answer:
+        case 1:
+            pass # call edit
+        case 2:
+            mainmenu(data)
+
+def sortoptions(data, typeindex):
+    characternames = data.keys()
+    previoustypes = []
+    typelist = {}
+
+    count = 1
+    for character in characternames:
+
+        if data[character]["info"][typeindex] not in previoustypes:
+            previoustypes.append(data[character]["info"][typeindex])
+            print(f"{count}. {data[character]["info"][typeindex]}")
+            typelist[count] = data[character]["info"][typeindex]
+            count += 1
+    
+    return typelist
+
+def sorter(data, choice, types):
     pass
+
+def sortchoice(data):
+    print("Will sort by:\n1. Class\n2. Race\n3. Level")
+
+    sortchoice = inputchecker(3)
+
+    match sortchoice:
+        case 1:
+            distinctclasses = sortoptions(data, 1)
+            classchoice = inputchecker(len(distinctclasses))
+        case 2:
+            distinctraces = sortoptions(data, 0)
+            racechoice = inputchecker(len(distinctraces))
+        case 3:
+            pass
 
 def createcharacters(data):
-    pass
+    while True:
+        charactername = input("What is the name of this character?")
+
+        if charactername not in data.keys():
+            break
+    
+    characterrace = input("What is the race of this character?")
+    characterclass = input("What is the class of this character?")
+    characterlevel = input("What is the level of the characters?")
+
+    specificdata = {charactername:{"info":[characterrace, characterclass, characterlevel]}}
+
+    # stats assigner call function
+
+    data.update(specificdata)
+
+    mainmenu(data)
         
 
 def mainmenu(database):
@@ -96,8 +158,8 @@ def mainmenu(database):
 
 
 print("Hello! This is a simple character management software")
-                                            # item slot type, armor, weapon, misc, etc V
-database = {"name":{"info":["race", "class", "level"], "inventory":{"weapon":["staff", "heals 5 HP", "Healer"]}, "skills":("skillname and desc"), "attributes":[["attributes"], ["values"]]},
+                             # item slot type, armor, weapon, misc, etc V
+database = {"name":{"info":["race", "class", "level"], "inventory":{"weapon":["staff", "heals 5 HP", "Healer"]}, "skills":set({("skillname", "desc")}), "attributes":[ ["attributes", "second"], ["values", "secvalue"] ]},
             "Lopez":{"info":["dragon", "warrior", "19"]}
             }
 
