@@ -1,5 +1,6 @@
 # FB 1st Character manager
 import sys
+from Editing_function import editcharacters
 
 def validate_input(text, kind='int'):
     s = str(text).strip().capitalize()
@@ -36,14 +37,16 @@ def inputchecker(rangeofchoices):
     return choicevar
 
 def viewchars(data):
-    characterkeys = database.keys()
+    characterkeys = data.keys()
     characternameandlistnum = {}
 
     count = 1
     for character in characterkeys:
         characternameandlistnum[count] = character
-
-        print(f"{count}. {character} : {database[character]["info"][0]}, {database[character]["info"][1]}, {database[character]["info"][2]}")
+        char_race = data[character]["simpleinfo"][0]
+        char_class = data[character]["simpleinfo"][1]
+        char_level = data[character]["simpleinfo"][2]
+        print(f"{count}. {character} : {char_race}, {char_class}, {char_level}")
         count += 1
 
     print("Would you like to:\n1. Select\n2. Sort\n3. Main menu")
@@ -64,11 +67,13 @@ def select(data, selectionmenu):
     characternum = inputchecker(len(selectionmenu))
     character = selectionmenu[characternum]
 
-    print(f"{character} : {database[character]["info"][0]}, {database[character]["info"][1]}, {database[character]["info"][2]}")
+    char_race = data[character]["simpleinfo"][0]
+    char_class = data[character]["simpleinfo"][1]
+    char_level = data[character]["simpleinfo"][2]
+    print(f"{character} : {char_race}, {char_class}, {char_level}")
 
-    for itemslot in data[character]["inventory"].keys():
-
-        item = data[character]["inventory"][itemslot]
+    for itemslot in data[character]["Items_Dictionary"].keys():
+        item = data[character]["Items_Dictionary"][itemslot]
         print(f"{itemslot} : {item[0]} it {item[1]}, and only a {item[2]} can use it!")
     
     for skill in data[character]["skills"]:
@@ -76,7 +81,8 @@ def select(data, selectionmenu):
     
     count = 0
     for attribute in data[character]["attributes"][0]:
-        print(f"{attribute} : {data[character]["attributes"][1][count]}")
+        attr_value = data[character]["attributes"][1][count]
+        print(f"{attribute} : {attr_value}")
         count += 1
 
     print("Would you like to:\n1. edit\n2. main menu?")
@@ -85,7 +91,7 @@ def select(data, selectionmenu):
 
     match answer:
         case 1:
-            pass # call edit
+            editcharacters(data)
         case 2:
             mainmenu(data)
 
@@ -97,10 +103,10 @@ def sortoptions(data, typeindex):
     count = 1
     for character in characternames:
 
-        if data[character]["info"][typeindex] not in previoustypes:
-            previoustypes.append(data[character]["info"][typeindex])
-            print(f"{count}. {data[character]["info"][typeindex]}")
-            typelist[count] = data[character]["info"][typeindex]
+        if data[character]["simpleinfo"][typeindex] not in previoustypes:
+            previoustypes.append(data[character]["simpleinfo"][typeindex])
+            print(f"{count}. {data[character]["simpleinfo"][typeindex]}")
+            typelist[count] = data[character]["simpleinfo"][typeindex]
             count += 1
     
     return typelist
@@ -135,50 +141,48 @@ def createcharacters(data):
     characterclass = input("What is the class of this character?")
     characterlevel = input("What is the level of the characters?")
 
-    specificdata = {charactername:{"info":[characterrace, characterclass, characterlevel]}}
+    attributeslist = ["strength", "dexterity", "constitution", "intelligence", "wisdom", "charisma", "health", "armor class"]
+    attributesscores = []
 
-    def assignattributes():
-        attributeslist = ["strength", "dexterity", "constitution", "intelligence", "wisdom", "charisma"]
-        attributesscores = []
+    for attribute in attributeslist:
+        while True:
+            attributepoint = input(f"What is the {attribute} score of this character? ")
 
-        for attribute in attributeslist:
-            while True:
-                attributepoint = input(f"What is the {attribute} score of this character?")
-
-                if validate_input(attributepoint, 'int'):
-                    attributesscores.append(attributepoint)
-                    break
-                else:
-                    print("Please enter a valid integer value.")
-                    continue
-            database[charactername]["attributes"] = attributeslist, attributesscores
-            
-        
-        return [attributeslist, attributesscores]
+            if validate_input(attributepoint, 'int'):
+                attributesscores.append(int(attributepoint))
+                break
+            else:
+                print("Please enter a valid integer value.")
+                continue
+    
+    specificdata = {charactername:{
+        "simpleinfo":[characterrace, characterclass, int(characterlevel)],
+        "Items_Dictionary": {"Weapon": ["None", "Weapon", "None"], "Armor": ["None", "Armor", "None"], "Inventory": []},
+        "skills": set(),
+        "attributes": [attributeslist, attributesscores]
+    }}
 
     data.update(specificdata)
-
     mainmenu(data)
         
 
 def mainmenu(database):
     while True:
-        print("You may:\n1. View Characters\n2. Create Character\n3. Exit")
+        print("You may:\n1. View Characters\n2. Create Character\n3. edit characters\n4. Exit")
 
-        functionchoice = inputchecker(3)
+        functionchoice = inputchecker(4)
         if functionchoice == 1:
             print("\n")
             viewchars(database)
         elif functionchoice == 2:
             createcharacters(database)
+        elif functionchoice == 3:
+            editcharacters(database)
         else:
             sys.exit()
 
 
-print("Hello! This is a simple character management software")
-                             # item slot type, armor, weapon, misc, etc V
-database = {"name":{"info":["race", "class", "level"], "inventory":{"weapon":["staff", "heals 5 HP", "Healer"]}, "skills":set({("", "")}), "attributes":[ ["attributes", "second"], ["values", "secvalue"] ]},
-            "Lopez":{"info":["dragon", "warrior", "19"]}
-            }
-
-mainmenu(database)
+if __name__ == "__main__":
+    print("Hello! This is a simple character management software")
+    from main import database
+    mainmenu(database)

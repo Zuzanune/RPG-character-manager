@@ -1,3 +1,24 @@
+def editcharacters(database):
+    print("Which character would you like to edit?")
+    for i, character in enumerate(database.keys()):
+        print(f"{i+1}. {character}")
+    choice = int(input("Enter the number of the character you want to edit: ")) - 1
+    character_name = list(database.keys())[choice]
+    while True:
+        print(f"Editing {character_name}")
+        print("1. Edit Skills")
+        print("2. Edit Inventory")
+        print("3. Return to Main Menu")
+        action = input("Choose an option: ").strip()
+        if action == "1":
+            EditSkills(database, character_name)
+        elif action == "2":
+            inventory_management(database, character_name, database[character_name]["simpleinfo"][1])
+        elif action == "3":
+            break
+        else:
+            print("Invalid option.")
+
 def EditSkills(database, character_name):
         action = input("Would you like to add or remove a skill? ").lower().strip()
         if action == "add":
@@ -93,8 +114,11 @@ def editing(database, character_name):
 
     def displaystat(num):
         oldstat = database[character_name]["attributes"][1][num]
-        database[character_name]["attributes"][1][num] = newStatValue
-        print(f"{statToEdit.capitalize()} has been updated from {oldstat} to {newStatValue}.")
+        try:
+            database[character_name]["attributes"][1][num] = int(newStatValue)
+        except ValueError:
+            database[character_name]["attributes"][1][num] = newStatValue
+        print(f"{statToEdit.capitalize()} has been updated from {oldstat} to {database[character_name]["attributes"][1][num]}.")
 
     while True:
         editC = input("Are you editing  1. Stats, 2. Skills, or 3. Inventory, or do you want to  4. quit:  ").lower().strip()
@@ -121,6 +145,10 @@ def editing(database, character_name):
                         displaystat(4)
                     case "charisma" | "cha":
                         displaystat(5)
+                    case "health" | "hel":
+                        displaystat(6)
+                    case "armor class" | "ac":
+                        displaystat(7)
             else:
                 print("Invalid stat name. Please try again.")
 
