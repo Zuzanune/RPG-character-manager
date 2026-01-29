@@ -137,7 +137,24 @@ def createcharacters(data):
 
     specificdata = {charactername:{"info":[characterrace, characterclass, characterlevel]}}
 
-    # stats assigner call function
+    def assignattributes():
+        attributeslist = ["strength", "dexterity", "constitution", "intelligence", "wisdom", "charisma"]
+        attributesscores = []
+
+        for attribute in attributeslist:
+            while True:
+                attributepoint = input(f"What is the {attribute} score of this character?")
+
+                if validate_input(attributepoint, 'int'):
+                    attributesscores.append(attributepoint)
+                    break
+                else:
+                    print("Please enter a valid integer value.")
+                    continue
+            database[charactername]["attributes"] = attributeslist, attributesscores
+            
+        
+        return [attributeslist, attributesscores]
 
     data.update(specificdata)
 
@@ -156,3 +173,12 @@ def mainmenu(database):
             createcharacters(database)
         else:
             sys.exit()
+
+
+print("Hello! This is a simple character management software")
+                             # item slot type, armor, weapon, misc, etc V
+database = {"name":{"info":["race", "class", "level"], "inventory":{"weapon":["staff", "heals 5 HP", "Healer"]}, "skills":set({("", "")}), "attributes":[ ["attributes", "second"], ["values", "secvalue"] ]},
+            "Lopez":{"info":["dragon", "warrior", "19"]}
+            }
+
+mainmenu(database)
