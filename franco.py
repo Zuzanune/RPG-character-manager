@@ -99,30 +99,51 @@ def sortoptions(data, typeindex):
 
         if data[character]["info"][typeindex] not in previoustypes:
             previoustypes.append(data[character]["info"][typeindex])
+
             print(f"{count}. {data[character]["info"][typeindex]}")
+
             typelist[count] = data[character]["info"][typeindex]
+
             count += 1
     
     return typelist
 
-def sorter(data, choice, types):
-    pass
+def sorter(data, choice, types, typeindex):
+    characterkeys = data.keys()
+    characternameandlistnum = {}
+
+    count = 1
+    for character in characterkeys:
+        if data[character]["info"][typeindex] == types[choice]:
+            characternameandlistnum[count] = character
+
+            print(f"{count}. {character} : {database[character]["info"][0]}, {database[character]["info"][1]}, {database[character]["info"][2]}")
+            count += 1
+
+    print("Would you like to:\n1. Select\n2. Main menu")
+
+    choice = inputchecker(3)
 
 def sortchoice(data):
-    print("Will sort by:\n1. Class\n2. Race\n3. Level")
+    print("Will sort by:\n1. Race\n2. Class\n3. Level")
 
     sortchoice = inputchecker(3)
 
     match sortchoice:
         case 1:
-            distinctclasses = sortoptions(data, 1)
-            classchoice = inputchecker(len(distinctclasses))
+            distinct = sortoptions(data, 0)
+            choice = inputchecker(len(distinct))
+            typeindex = 0
         case 2:
-            distinctraces = sortoptions(data, 0)
-            racechoice = inputchecker(len(distinctraces))
+            distinct = sortoptions(data, 1)
+            choice = inputchecker(len(distinct))
+            typeindex = 1
         case 3:
-            distinctlevels = sortoptions(data, 2)
-            levelchoice = inputchecker(len(distinctraces))
+            distinct = sortoptions(data, 2)
+            choice = inputchecker(len(distinct))
+            typeindex = 2
+    
+    sorter(data, choice, distinct, typeindex)
 
 def createcharacters(data):
     while True:
@@ -142,8 +163,7 @@ def createcharacters(data):
     data.update(specificdata)
 
     mainmenu(data)
-        
-
+    
 def mainmenu(database):
     while True:
         print("You may:\n1. View Characters\n2. Create Character\n3. Exit")
