@@ -156,12 +156,3 @@ def mainmenu(database):
             createcharacters(database)
         else:
             sys.exit()
-
-
-print("Hello! This is a simple character management software")
-                             # item slot type, armor, weapon, misc, etc V
-database = {"name":{"info":["race", "class", "level"], "inventory":{"weapon":["staff", "heals 5 HP", "Healer"]}, "skills":set({("skillname", "desc")}), "attributes":[ ["attributes", "second"], ["values", "secvalue"] ]},
-            "Lopez":{"info":["dragon", "warrior", "19"]}
-            }
-
-mainmenu(database)
