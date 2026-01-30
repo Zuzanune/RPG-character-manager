@@ -55,7 +55,7 @@ def inventory_management(Items_Dictonaties,player_class):
                                     Items_Dictonaties["Inventory"].append(Items_Dictonaties[Item_slot][x]) 
                             Items_Dictonaties[Item_slot] = [Edit_item,Item_slot,Item_class]
                             print(f"Your charaters weapon is a {Items_Dictonaties["Weapon"][0]}")
-                            print(f"Your charaters is wearing {Items_Dictonaties["Armor"][0]} ")
+                            print(f"Your characters is wearing {Items_Dictonaties["Armor"][0]} ")
                             print(f"This is your inventory:")
                             val = 0
                             for x in Items_Dictonaties["Inventory"]:
@@ -74,7 +74,7 @@ def inventory_management(Items_Dictonaties,player_class):
                 Items_Dictonaties["Inventory"].append(player_item_name)
                 player_item_slot = input("What is the slot of the item(Inventory,Weapon,Armor):").capitalize().strip()
                 Items_Dictonaties["Inventory"].append(player_item_slot)
-                player_item_class = input("What is the required class of the item(If no required one then type None):").capitalize().strip()
+                player_item_class = input("What is the required class of the item(If no required one then type any):").capitalize().strip()
                 for x in Items_Dictonaties["Inventory"]:
                         val += 1
                         if val == 1:
