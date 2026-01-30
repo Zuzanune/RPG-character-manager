@@ -11,8 +11,8 @@ database = {
 
     "Zylvina":{"simpleinfo":("Elf", "Cleric"), "level": 13,"Items_Dictionary": {"Weapon": ["Whip", "Weapon", "None"], "Armor": ["None", "Armor", "None"], "Inventory": []}, "skills":{("heal","The character can heal wounds and restore health")}, "attributes": [["strength", "dexterity", "intelligence", "wisdom", "constitution", "health", "armor class", "charisma"], [random.randint(8, 18), random.randint(8, 18), random.randint(8, 18), random.randint(8, 18), random.randint(8, 18), random.randint(8, 15), random.randint(10, 17), random.randint(8, 18)]]},
 
-    "test":{"simpleinfo":("Human", "Rogue"), "level": 1, "Items_Dictionary": {"Weapon": ["Dagger", "Weapon", "None"], "Armor": ["None", "Armor", "None"], "Inventory": []}, "skills":{("punch","The character can punch an enemy for damage")}, "attributes": [["strength", "dexterity", "intelligence", "wisdom", "constitution", "health", "armor class", "charisma"], [10, 10, 10, 10, 10, 10, 10, 10]]}}
-
+    #"test":{"simpleinfo":("Human", "Rogue"), "level": 1, "Items_Dictionary": {"Weapon": ["Dagger", "Weapon", "None"], "Armor": ["None", "Armor", "None"], "Inventory": []}, "skills":{("punch","The character can punch an enemy for damage")}, "attributes": [["strength", "dexterity", "intelligence", "wisdom", "constitution", "health", "armor class", "charisma"], [10, 10, 10, 10, 10, 10, 10, 10]]}}
+}
 if __name__ == "__main__":
     intro()
     mainmenu(database)
