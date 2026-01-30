@@ -42,12 +42,12 @@ def viewchars(data):
 
     count = 1
     for character in characterkeys:
-        count += 1
         characternameandlistnum[count] = character
         char_race = data[character]["simpleinfo"][0]
         char_class = data[character]["simpleinfo"][1]
         char_level = data[character]["level"]
         print(f"{count}. {character} : {char_race}, {char_class}, {char_level}")
+        count += 1
         
 
     print("\nWould you like to:\n1. Select\n2. Sort\n3. Main Menu")
@@ -230,7 +230,8 @@ def createcharacters(data):
                 idx = attributeslist.index(stat_lower)
                 attributesscores[idx] += inc
     specificdata = {charactername:{
-        "simpleinfo":[characterrace, characterclass, int(characterlevel)],
+        "simpleinfo":(characterrace, characterclass),
+        "level": int(characterlevel),
         "Items_Dictionary": {"Weapon": ["None", "Weapon", "None"], "Armor": ["None", "Armor", "None"], "Inventory": []},
         "skills": set(),
         "attributes": [attributeslist, attributesscores]
