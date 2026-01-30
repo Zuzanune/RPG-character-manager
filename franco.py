@@ -74,7 +74,8 @@ def select(data, selectionmenu):
 
     for itemslot in data[character]["Items_Dictionary"].keys():
         item = data[character]["Items_Dictionary"][itemslot]
-        print(f"{itemslot} : {item[0]} it {item[1]}, and only a {item[2]} can use it!")
+        if item != []:
+            print(f"{itemslot} : {item[0]} it {item[1]}, and only a {item[2]} can use it!")
     
     for skill in data[character]["skills"]:
         print(f"{skill[0]} it {skill[1]}")
