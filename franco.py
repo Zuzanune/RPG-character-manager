@@ -124,7 +124,7 @@ def sorter(data, choice, types, typeindex):
         if data[character]["simpleinfo"][typeindex] == types[choice]:
             characternameandlistnum[count] = character
 
-            print(f"{count}. {character} : {database[character]["simpleinfo"][0]}, {database[character]["simpleinfo"][1]}, {database[character]["simpleinfo"][2]}")
+            print(f"{count}. {character} : {data[character]["simpleinfo"][0]}, {data[character]["simpleinfo"][1]}, {data[character]["simpleinfo"][2]}")
             count += 1
 
     print("Would you like to:\n1. Select\n2. Main menu")
@@ -165,7 +165,14 @@ def createcharacters(data):
     
     characterrace = input("What is the race of this character?")
     characterclass = input("What is the class of this character?")
-    characterlevel = input("What is the level of the characters?")
+    while True:
+        characterlevel = input("What is the level of the characters?")
+
+        if not validate_input(characterlevel, 'int'):
+            print("Please enter a valid integer number")
+            continue
+        
+        break
 
     attributeslist = ["strength", "dexterity", "constitution", "intelligence", "wisdom", "charisma", "health", "armor class"]
     attributesscores = []
