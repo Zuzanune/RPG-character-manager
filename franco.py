@@ -45,7 +45,7 @@ def viewchars(data):
         characternameandlistnum[count] = character
         char_race = data[character]["simpleinfo"][0]
         char_class = data[character]["simpleinfo"][1]
-        char_level = data[character]["simpleinfo"][2]
+        char_level = data[character]["level"]
         print(f"{count}. {character} : {char_race}, {char_class}, {char_level}")
         count += 1
 
@@ -69,7 +69,7 @@ def select(data, selectionmenu):
 
     char_race = data[character]["simpleinfo"][0]
     char_class = data[character]["simpleinfo"][1]
-    char_level = data[character]["simpleinfo"][2]
+    char_level = data[character]["level"]
     print(f"{character} : {char_race}, {char_class}, {char_level}")
 
     for itemslot in data[character]["Items_Dictionary"].keys():
@@ -99,7 +99,7 @@ def select(data, selectionmenu):
         case 2:
             mainmenu(data)
 
-def sortoptions(data, typeindex):
+def sortoptions(data, *typeindex):
     characternames = data.keys()
     previoustypes = []
     typelist = {}
@@ -112,10 +112,10 @@ def sortoptions(data, typeindex):
             print(f"{count}. {data[character]["simpleinfo"][typeindex]}")
             typelist[count] = data[character]["simpleinfo"][typeindex]
             count += 1
-    
+
     return typelist
 
-def sorter(data, choice, types, typeindex):
+def sorter(data, choice, types, *typeindex):
     characterkeys = data.keys()
     characternameandlistnum = {}
 
@@ -124,7 +124,7 @@ def sorter(data, choice, types, typeindex):
         if data[character]["simpleinfo"][typeindex] == types[choice]:
             characternameandlistnum[count] = character
 
-            print(f"{count}. {character} : {data[character]["simpleinfo"][0]}, {data[character]["simpleinfo"][1]}, {data[character]["simpleinfo"][2]}")
+            print(f"{count}. {character} : {data[character]["simpleinfo"][0]}, {data[character]["simpleinfo"][1]}, {data[character]["level"]}")
             count += 1
 
     print("Would you like to:\n1. Select\n2. Main menu")
@@ -152,9 +152,10 @@ def sortchoice(data):
         case 3:
             distinct = sortoptions(data, 2)
             choice = inputchecker(len(distinct))
-            typeindex = 2
-    
-    sorter(data, choice, distinct, typeindex)
+    try:
+        sorter(data, choice, distinct, typeindex)
+    except:
+        sorter(data, choice, distinct)
 
 def createcharacters(data):
     while True:
