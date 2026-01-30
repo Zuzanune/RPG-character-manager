@@ -167,7 +167,14 @@ def createcharacters(data):
             break
     
     characterrace = input("What is the race of this character? ")
+    #list of dnd classes
+    availableclasses = ["Barbarian", "Bard", "Cleric", "Druid", "Fighter", "Monk", "Paladin", "Ranger", "Rogue", "Sorcerer", "Warlock", "Wizard", "Artificer"]
     characterclass = input("What is the class of this character? ")
+    while characterclass not in availableclasses:
+        print("Please enter a valid class.")
+        for i in availableclasses:
+            print(f"- {i}")
+        characterclass = input("What is the class of this character? ")
     while True:
         characterlevel = input("What is the level of the characters? ")
 
