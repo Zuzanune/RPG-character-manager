@@ -15,11 +15,11 @@ No:
 
 
 #Example dictonary Items_Dictonaties = {"Weapon":[#item name,#Slot type.#class required,#Weight,],"Armor":[],"Inventory":{} }
-Items_Dictonaties = {"Weapon":["Sword","Weapon","none"],"Armor":["Iron armor","Armor","none"],"Inventory":["daggers","Weapon","Rouge","staff","Weapon","None"]}
+Items_Dictonaties = {"Weapon":["Sword","Weapon","none"],"Armor":["Iron Armor","Armor","none"],"Inventory":["Daggers","Weapon","Rouge","Staff","Weapon","None"]}
 
 def inventory_management(Items_Dictonaties,player_class):
-    print(f"Your charaters weapon is a {Items_Dictonaties["Weapon"][0]}")
-    print(f"Your charaters is wearing {Items_Dictonaties["Armor"][0]} ")
+    print(f"Your characters weapon is a {Items_Dictonaties["Weapon"][0]}")
+    print(f"Your character is wearing {Items_Dictonaties["Armor"][0]} ")
     print(f"This is your inventory:")
     val = 0
     for x in Items_Dictonaties["Inventory"]:
@@ -28,7 +28,7 @@ def inventory_management(Items_Dictonaties,player_class):
             print(x)
         if val == 3:
             val = 0
-    Player_answer = input("Would you like to Edit you inventory(1.Yes 2.No):").capitalize().strip()
+    Player_answer = input("Would you like to Edit your inventory (1.Yes 2.No):").capitalize().strip()
     if Player_answer == "1" or Player_answer == "Yes":
         asking = True
         while asking:

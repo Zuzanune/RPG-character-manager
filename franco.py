@@ -23,7 +23,7 @@ def validate_input(text, kind='int'):
     
 def inputchecker(rangeofchoices):
     while True:
-            choicevar = input(f"Which one would you like to choose?(1~{rangeofchoices}):\n").strip().capitalize()
+            choicevar = input(f"\nWhich one would you like to choose? (1 - {rangeofchoices})\n").strip().capitalize()
             try:
                 choicevar = int(choicevar)
                 if choicevar in range(1, rangeofchoices+1):
@@ -46,10 +46,10 @@ def viewchars(data):
         char_race = data[character]["simpleinfo"][0]
         char_class = data[character]["simpleinfo"][1]
         char_level = data[character]["simpleinfo"][2]
-        print(f"{count}. {character} : {char_race}, {char_class}, {char_level}")
+        print(f"{count}. {character}:\n   - Race: {char_race}\n   - Class: {char_class}\n   - Level: {char_level}\n")
         count += 1
 
-    print("Would you like to:\n1. Select\n2. Sort\n3. Main menu")
+    print("\nWould you like to:\n1. Select\n2. Sort\n3. Main Menu")
 
     choice = inputchecker(3)
     
@@ -62,7 +62,7 @@ def viewchars(data):
             mainmenu(data)
 
 def select(data, selectionmenu):
-    print("Which character do you want to select? (Refer to the list above)")
+    print("\nWhich character do you want to select? (Refer to the list of characters above)")
 
     characternum = inputchecker(len(selectionmenu))
     character = selectionmenu[characternum]
@@ -70,26 +70,28 @@ def select(data, selectionmenu):
     char_race = data[character]["simpleinfo"][0]
     char_class = data[character]["simpleinfo"][1]
     char_level = data[character]["simpleinfo"][2]
-    print(f"{character} : {char_race}, {char_class}, {char_level}")
+    print(f"\n{character}:\n   - Race: {char_race}\n   - Class: {char_class}\n   - Level: {char_level}")
 
+    print("\nInventory: ")
     for itemslot in data[character]["Items_Dictionary"].keys():
         item = data[character]["Items_Dictionary"][itemslot]
 
         try:
-            print(f"{itemslot} : {item[0]} it is a {item[1]}, and {item[2]} can use it!")
+            print(f"   - {itemslot}: {item[0]} it is a {item[1]}, and {item[2]} can use it!")
         except:
             continue
 
     for skill in data[character]["skills"]:
-        print(f"{skill[0]} it {skill[1]}")
+        print(f"\nSkills:\n   - {skill[0]}: {skill[1]}")
     
     count = 0
+    print("\nAttributes: ")
     for attribute in data[character]["attributes"][0]:
         attr_value = data[character]["attributes"][1][count]
-        print(f"{attribute} : {attr_value}")
+        print(f"   - {attribute.title()}: {attr_value}")
         count += 1
 
-    print("Would you like to:\n1. edit\n2. main menu?")
+    print("\nWould you like to:\n1. Edit\n2. Main Menu?")
 
     answer = inputchecker(2)
 
@@ -120,14 +122,15 @@ def sorter(data, choice, types, typeindex):
     characternameandlistnum = {}
 
     count = 1
+    print("\n")
     for character in characterkeys:
         if data[character]["simpleinfo"][typeindex] == types[choice]:
             characternameandlistnum[count] = character
 
-            print(f"{count}. {character} : {data[character]["simpleinfo"][0]}, {data[character]["simpleinfo"][1]}, {data[character]["simpleinfo"][2]}")
+            print(f"{count}. {character}:\n   - Race: {data[character]["simpleinfo"][0]}\n   - Class: {data[character]["simpleinfo"][1]}   - Level: {data[character]["simpleinfo"][2]}")
             count += 1
 
-    print("Would you like to:\n1. Select\n2. Main menu")
+    print("\nWould you like to:\n1. Select\n2. Main menu")
 
     choice = inputchecker(2)
 
@@ -136,7 +139,7 @@ def sorter(data, choice, types, typeindex):
             select(data, characternameandlistnum)
 
 def sortchoice(data):
-    print("Will sort by:\n1. Race\n2. Class\n3. Level")
+    print("\nWill sort by:\n1. Race\n2. Class\n3. Level")
 
     sortchoice = inputchecker(3)
 
@@ -158,18 +161,18 @@ def sortchoice(data):
 
 def createcharacters(data):
     while True:
-        charactername = input("What is the name of this character?")
+        charactername = input("\nWhat is the name of this character? ")
 
         if charactername not in data.keys():
             break
     
-    characterrace = input("What is the race of this character?")
-    characterclass = input("What is the class of this character?")
+    characterrace = input("What is the race of this character? ")
+    characterclass = input("What is the class of this character? ")
     while True:
-        characterlevel = input("What is the level of the characters?")
+        characterlevel = input("What is the level of the characters? ")
 
         if not validate_input(characterlevel, 'int'):
-            print("Please enter a valid integer number")
+            print("\nPlease enter a valid integer number.")
             continue
         
         break
@@ -200,7 +203,7 @@ def createcharacters(data):
     
 def mainmenu(database):
     while True:
-        print("You may:\n1. View Characters\n2. Create Character\n3. edit characters\n4. Exit")
+        print("\nYou may:\n1. View Characters\n2. Create Character\n3. Edit Characters\n4. Exit")
 
         functionchoice = inputchecker(4)
         if functionchoice == 1:
@@ -211,6 +214,7 @@ def mainmenu(database):
         elif functionchoice == 3:
             editcharacters(database)
         else:
+            print("\nExiting...")
             sys.exit()
 
 

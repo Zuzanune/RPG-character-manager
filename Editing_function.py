@@ -1,16 +1,16 @@
 def editcharacters(database):
-    print("Which character would you like to edit?")
+    print("\nWhich character would you like to edit? ")
     for i, character in enumerate(database.keys()):
         print(f"{i+1}. {character}")
-    choice = int(input("Enter the number of the character you want to edit: ")) - 1
+    choice = int(input("\nEnter the number of the character you want to edit: ")) - 1
     character_name = list(database.keys())[choice]
     while True:
-        print(f"Editing {character_name}")
+        print(f"\nEditing {character_name}")
         print("1. Edit Skills")
         print("2. Edit Inventory")
         print ("3. Edit Stats")
         print("4. Return to Main Menu")
-        action = input("Choose an option: ").strip()
+        action = input("\nChoose an option: ").strip()
         if action == "1":
             EditSkills(database, character_name)
         elif action == "2":
@@ -23,30 +23,31 @@ def editcharacters(database):
             print("Invalid option.")
 
 def EditSkills(database, character_name):
-        action = input("Would you like to add or remove a skill? ").lower().strip()
+        action = input("\nWould you like to: \n- Add\n- Remove\n\nWhich one would you like to choose? ").lower().strip()
         if action == "add":
-            skillname = input("Enter the name of the skill you want to add: ").capitalize().strip()
+            skillname = input("\nEnter the name of the skill you want to add: ").capitalize().strip()
             skilldesc = input("Enter a description for the skill: ").strip()
             database[character_name]["skills"].add((skillname, skilldesc))
             print(f"Skill '{skillname}' has been added.")
                 
         elif action == "remove":
+            print("\nSkills:")
             for i in database[character_name]["skills"]:
-                print(f"- {i[0]}")
-            skillToRemove = input("Enter the name of the skill you want to remove: ").capitalize().strip()
+                print(f"   - {i[0]}")
+            skillToRemove = input("\nEnter the name of the skill you want to remove: ").capitalize().strip()
             skill_to_remove = next((skill for skill in database[character_name]["skills"] if skill[0] == skillToRemove), None)
             if skill_to_remove:
                 database[character_name]["skills"].remove(skill_to_remove)
-                print(f"Skill '{skillToRemove}' has been removed.")
+                print(f"\nSkill '{skillToRemove}' has been removed.")
             else:
-                print(f"Skill '{skillToRemove}' not found in your skills.")
+                print(f"\nSkill '{skillToRemove}' not found in your skills.")
 
 
 def inventory_management(database, character_name, player_class):
     Items_Dictonaties = database[character_name]["Items_Dictionary"]
-    print(f"Your charaters weapon is a {Items_Dictonaties["Weapon"][0]}")
-    print(f"Your charaters is wearing {Items_Dictonaties["Armor"][0]} ")
-    print(f"This is your inventory:")
+    print(f"\nCharacters Weapon: {Items_Dictonaties["Weapon"][0]}")
+    print(f"Character Wearing: {Items_Dictonaties["Armor"][0]} ")
+    print(f"\nCharacter Inventory:")
     val = 0
     for x in Items_Dictonaties["Inventory"]:
         val += 1
@@ -54,7 +55,7 @@ def inventory_management(database, character_name, player_class):
             print(x)
         if val == 3:
             val = 0
-    Player_answer = input("Would you like to Edit you inventory(1.Yes 2.No):").capitalize().strip()
+    Player_answer = input("\nWould you like to: \n1. Yes\n2. No\n\nWhich one would you like to choose (1 - 2)? ").capitalize().strip()
     if Player_answer == "1" or Player_answer == "Yes":
         asking = True
         while asking:
@@ -80,8 +81,8 @@ def inventory_management(database, character_name, player_class):
                                 if Items_Dictonaties[Item_slot][0] != "None":
                                     Items_Dictonaties["Inventory"].append(Items_Dictonaties[Item_slot][x]) 
                             Items_Dictonaties[Item_slot] = [Edit_item,Item_slot,Item_class]
-                            print(f"Your charaters weapon is a {Items_Dictonaties["Weapon"][0]}")
-                            print(f"Your charaters is wearing {Items_Dictonaties["Armor"][0]} ")
+                            print(f"Your characters weapon is a {Items_Dictonaties["Weapon"][0]}")
+                            print(f"Your characters is wearing {Items_Dictonaties["Armor"][0]} ")
                             print(f"This is your inventory:")
                             val = 0
                             for x in Items_Dictonaties["Inventory"]:
@@ -92,7 +93,7 @@ def inventory_management(database, character_name, player_class):
                                     val = 0
                             answering = False
                         else:
-                            print(f"Your charater class is incorect. you need to be a {Item_class}, but you are a {player_class}")
+                            print(f"Your character class is incorect. you need to be a {Item_class}, but you are a {player_class}")
                     else:
                         print("that is not an item in your inventory")
             if players_selected_action == "2":
@@ -126,16 +127,16 @@ def editing(database, character_name):
             database[character_name]["attributes"][1][num] = int(newStatValue)
         except ValueError:
             database[character_name]["attributes"][1][num] = newStatValue
-        print(f"{stat_name.capitalize()} has been updated from {oldstat} to {database[character_name]['attributes'][1][num]}.")
+        print(f"\n{stat_name.capitalize()} has been updated from {oldstat} to {database[character_name]['attributes'][1][num]}")
 
     while True:
         changableStats = database[character_name]["attributes"][0]
-        print("available stats are as follows")
+        print("\nAttributes: ")
         ii = 1
         for x in changableStats:
-            print (f"{ii}. - {x}")
+            print (f"{ii}. {x.title()}")
             ii += 1
-        statToEdit = input("Which stat would you like to edit? ").lower().strip()
+        statToEdit = input("\nWhich attribute would you like to edit? ").lower().strip()
         stat_is_valid = statToEdit in changableStats or statToEdit in [s[:3] for s in changableStats] or statToEdit in ["ac", "hel"]
         try:
             stat_num = int(statToEdit)
@@ -179,10 +180,10 @@ def editing(database, character_name):
                         displaystat(7, "armor class")
                 case _:
                         print("Could not match stat. Please try again.")
-            continue_editing = input("Would you like to edit another stat? (yes/no) ").lower().strip()
+            continue_editing = input("\nWould you like to update another attribute: \n- Yes\n- No\n\nWhich one would you like to choose? ").lower().strip()
             if continue_editing != "yes":
                 break
 
         else:
-                print("Invalid stat name. Please try again.")
+                print("\nInvalid stat name. Please try again.")
     
