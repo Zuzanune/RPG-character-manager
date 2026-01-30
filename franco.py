@@ -69,13 +69,8 @@ def select(data, selectionmenu):
 
     char_race = data[character]["simpleinfo"][0]
     char_class = data[character]["simpleinfo"][1]
-<<<<<<< HEAD
-    char_level = data[character]["simpleinfo"][2]
-    print(f"\n{character}:\n   - Race: {char_race}\n   - Class: {char_class}\n   - Level: {char_level}")
-=======
     char_level = data[character]["level"]
     print(f"{character} : {char_race}, {char_class}, {char_level}")
->>>>>>> origin/Franco
 
     print("\nInventory: ")
     for itemslot in data[character]["Items_Dictionary"].keys():
@@ -132,11 +127,7 @@ def sorter(data, choice, types, *typeindex):
         if data[character]["simpleinfo"][typeindex] == types[choice]:
             characternameandlistnum[count] = character
 
-<<<<<<< HEAD
-            print(f"{count}. {character}:\n   - Race: {data[character]["simpleinfo"][0]}\n   - Class: {data[character]["simpleinfo"][1]}   - Level: {data[character]["simpleinfo"][2]}")
-=======
             print(f"{count}. {character} : {data[character]["simpleinfo"][0]}, {data[character]["simpleinfo"][1]}, {data[character]["level"]}")
->>>>>>> origin/Franco
             count += 1
 
     print("\nWould you like to:\n1. Select\n2. Main menu")
