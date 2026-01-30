@@ -8,13 +8,16 @@ def editcharacters(database):
         print(f"Editing {character_name}")
         print("1. Edit Skills")
         print("2. Edit Inventory")
-        print("3. Return to Main Menu")
+        print ("3. Edit Stats")
+        print("4. Return to Main Menu")
         action = input("Choose an option: ").strip()
         if action == "1":
             EditSkills(database, character_name)
         elif action == "2":
             inventory_management(database, character_name, database[character_name]["simpleinfo"][1])
         elif action == "3":
+            editing(database, character_name)
+        elif action == "4":
             break
         else:
             print("Invalid option.")
@@ -95,7 +98,13 @@ def inventory_management(database, character_name, player_class):
             if players_selected_action == "2":
                 player_item_name = input("What is the name of the item:").capitalize().strip()
                 Items_Dictonaties["Inventory"].append(player_item_name)
-                player_item_slot = input("What is the slot of the item(Inventory,Weapon,Armor):").capitalize().strip()
+                player_item_slot = input("What is the slot of the item(1.Inventory,2.Weapon,3.Armor):").capitalize().strip()
+                if player_item_slot == "1":
+                    player_item_slot = "Inventory"
+                if player_item_slot == "2":
+                    player_item_slot = "Weapon"
+                if player_item_slot == "3":
+                    player_item_slot = "Armor"
                 Items_Dictonaties["Inventory"].append(player_item_slot)
                 player_item_class = input("What is the required class of the item(If no required one then type None):").capitalize().strip()
                 Items_Dictonaties["Inventory"].append(player_item_class)
@@ -111,52 +120,68 @@ def inventory_management(database, character_name, player_class):
 
 def editing(database, character_name):
 
-
-    def displaystat(num):
+    def displaystat(num, stat_name):
         oldstat = database[character_name]["attributes"][1][num]
         try:
             database[character_name]["attributes"][1][num] = int(newStatValue)
         except ValueError:
             database[character_name]["attributes"][1][num] = newStatValue
-        print(f"{statToEdit.capitalize()} has been updated from {oldstat} to {database[character_name]["attributes"][1][num]}.")
+        print(f"{stat_name.capitalize()} has been updated from {oldstat} to {database[character_name]['attributes'][1][num]}.")
 
     while True:
-        editC = input("Are you editing  1. Stats, 2. Skills, or 3. Inventory, or do you want to  4. quit:  ").lower().strip()
-        if editC == "stats" or editC == "1":
-            changableStats = database[character_name]["attributes"][0]
-            print("available stats are as follows")
-            for x in changableStats:
-                print (f" - {x}")
-            statToEdit = input("Which stat would you like to edit? ").lower().strip()
-            if statToEdit in changableStats or statToEdit in [s[:3] for s in changableStats]:
-                newStatValue = input(f"What would you like to change {statToEdit} to? ").strip()
+        changableStats = database[character_name]["attributes"][0]
+        print("available stats are as follows")
+        ii = 1
+        for x in changableStats:
+            print (f"{ii}. - {x}")
+            ii += 1
+        statToEdit = input("Which stat would you like to edit? ").lower().strip()
+        stat_is_valid = statToEdit in changableStats or statToEdit in [s[:3] for s in changableStats] or statToEdit in ["ac", "hel"]
+        try:
+            stat_num = int(statToEdit)
+            stat_is_valid = stat_is_valid or (1 <= stat_num <= len(changableStats))
+        except ValueError:
+            pass
+
+        
+        if stat_is_valid:
+            # Map input to actual stat name
+            stat_name_map = {
+                "strength": "strength", "str": "strength", "1": "strength",
+                "dexterity": "dexterity", "dex": "dexterity", "2": "dexterity",
+                "intelligence": "intelligence", "int": "intelligence", "3": "intelligence",
+                "wisdom": "wisdom", "wis": "wisdom", "4": "wisdom",
+                "constitution": "constitution", "con": "constitution", "5": "constitution",
+                "charisma": "charisma", "cha": "charisma", "8": "charisma",
+                "health": "health", "hel": "health", "6": "health",
+                "armor class": "armor class", "ac": "armor class", "7": "armor class"
+            }
+            actual_stat_name = stat_name_map.get(statToEdit, statToEdit)
+            newStatValue = input(f"What would you like to change {actual_stat_name} to? ").strip()
 
                     
-                match statToEdit:
-                    case "strength" | "str":
-                        displaystat(0)
-                    case "dexterity" | "dex":
-                        displaystat(1)
-                    case "constitution" | "con":
-                        displaystat(2)
-                    case "intelligence" | "int":
-                        displaystat(3)
-                    case "wisdom" | "wis":
-                        displaystat(4)
-                    case "charisma" | "cha":
-                        displaystat(5)
-                    case "health" | "hel":
-                        displaystat(6)
-                    case "armor class" | "ac":
-                        displaystat(7)
-            else:
-                print("Invalid stat name. Please try again.")
+            match statToEdit:
+                case "strength" | "str" | "1":
+                        displaystat(0, "strength")
+                case "dexterity" | "dex" | "2":
+                        displaystat(1, "dexterity")
+                case "intelligence" | "int" | "3":
+                        displaystat(2, "intelligence")
+                case "wisdom" | "wis" | "4":
+                        displaystat(3, "wisdom")
+                case "constitution" | "con" | "5":
+                        displaystat(4, "constitution")
+                case "charisma" | "cha" | "8":
+                        displaystat(5, "charisma")
+                case "health" | "hel" | "6":
+                        displaystat(6, "health")
+                case "armor class" | "ac" | "7":
+                        displaystat(7, "armor class")
+                case _:
+                        print("Could not match stat. Please try again.")
+            continue_editing = input("Would you like to edit another stat? (yes/no) ").lower().strip()
+            if continue_editing != "yes":
+                break
 
-
-        elif editC == "skills" or editC == "2":
-            EditSkills(database, character_name)
-        elif editC == "inventory" or editC == "3":
-            inventory_management(database, character_name, "None")
         else:
-            break
-
+                print("Invalid stat name. Please try again.")
