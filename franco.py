@@ -74,9 +74,12 @@ def select(data, selectionmenu):
 
     for itemslot in data[character]["Items_Dictionary"].keys():
         item = data[character]["Items_Dictionary"][itemslot]
-        if item != []:
-            print(f"{itemslot} : {item[0]} it {item[1]}, and only a {item[2]} can use it!")
-    
+
+        try:
+            print(f"{itemslot} : {item[0]} it is a {item[1]}, and {item[2]} can use it!")
+        except:
+            continue
+
     for skill in data[character]["skills"]:
         print(f"{skill[0]} it {skill[1]}")
     
@@ -118,15 +121,19 @@ def sorter(data, choice, types, typeindex):
 
     count = 1
     for character in characterkeys:
-        if data[character]["info"][typeindex] == types[choice]:
+        if data[character]["simpleinfo"][typeindex] == types[choice]:
             characternameandlistnum[count] = character
 
-            print(f"{count}. {character} : {database[character]["info"][0]}, {database[character]["info"][1]}, {database[character]["info"][2]}")
+            print(f"{count}. {character} : {data[character]["simpleinfo"][0]}, {data[character]["simpleinfo"][1]}, {data[character]["simpleinfo"][2]}")
             count += 1
 
     print("Would you like to:\n1. Select\n2. Main menu")
 
-    choice = inputchecker(3)
+    choice = inputchecker(2)
+
+    match choice:
+        case 1:
+            select(data, characternameandlistnum)
 
 def sortchoice(data):
     print("Will sort by:\n1. Race\n2. Class\n3. Level")
@@ -158,7 +165,14 @@ def createcharacters(data):
     
     characterrace = input("What is the race of this character?")
     characterclass = input("What is the class of this character?")
-    characterlevel = input("What is the level of the characters?")
+    while True:
+        characterlevel = input("What is the level of the characters?")
+
+        if not validate_input(characterlevel, 'int'):
+            print("Please enter a valid integer number")
+            continue
+        
+        break
 
     attributeslist = ["strength", "dexterity", "constitution", "intelligence", "wisdom", "charisma", "health", "armor class"]
     attributesscores = []
