@@ -170,12 +170,27 @@ def createcharacters(data):
     characterrace = input("What is the race of this character? ")
     #list of dnd classes
     availableclasses = ["Barbarian", "Bard", "Cleric", "Druid", "Fighter", "Monk", "Paladin", "Ranger", "Rogue", "Sorcerer", "Warlock", "Wizard", "Artificer"]
+    class_stat_increases = {"Barbarian": {"strength": 2, "constitution": 1}, "bard": {"charisma": 2, "dexterity": 1}, "cleric": {"wisdom": 2, "charisma": 1}, "druid": {"wisdom": 2, "constitution": 1}, "fighter": {"strength": 2, "constitution": 1}, "monk": {"dexterity": 2, "wisdom": 1}, "paladin": {"strength": 2, "charisma": 1}, "ranger": {"dexterity": 2, "wisdom": 1}, "rogue": {"dexterity": 2, "intelligence": 1}, "sorcerer": {"charisma": 2, "constitution": 1}, "warlock": {"charisma": 2, "wisdom": 1}, "wizard": {"intelligence": 2, "wisdom": 1}, "artificer": {"intelligence": 2, "constitution": 1}}
     characterclass = input("What is the class of this character? ")
+    def increasestatsbyclass():
+        class_lower = characterclass.lower()
+        normalized = {k.lower(): v for k, v in class_stat_increases.items()}
+        if class_lower in normalized:
+            increases = normalized[class_lower]
+            print(f"As a {characterclass}, you get the following stat increases:")
+            for stat, increase in increases.items():
+                print(f"- {stat.title()}: +{increase}")
+            return increases
+        else:
+            print(f"No stat increases found for class: {characterclass}")
+            return {}
+        
     while characterclass not in availableclasses:
         print("Please enter a valid class.")
         for i in availableclasses:
             print(f"- {i}")
         characterclass = input("What is the class of this character? ")
+    applied_increases = increasestatsbyclass()
     while True:
         characterlevel = input("What is the level of the characters? ")
 
@@ -199,6 +214,13 @@ def createcharacters(data):
                 print("Please enter a valid integer value.")
                 continue
     
+    # Apply class-based increases
+    if applied_increases:
+        for stat, inc in applied_increases.items():
+            stat_lower = stat.lower()
+            if stat_lower in attributeslist:
+                idx = attributeslist.index(stat_lower)
+                attributesscores[idx] += inc
     specificdata = {charactername:{
         "simpleinfo":[characterrace, characterclass, int(characterlevel)],
         "Items_Dictionary": {"Weapon": ["None", "Weapon", "None"], "Armor": ["None", "Armor", "None"], "Inventory": []},
