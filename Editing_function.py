@@ -1,19 +1,19 @@
 def validate_input(text, kind='int'):
-    s = str(text).strip().capitalize()
+    test_to_check = str(text).strip().capitalize()
     if kind == 'int':
         try:
-            int(s)
+            int(test_to_check)
             return True
         except ValueError:
             return False
     elif kind == 'float':
         try:
-            float(s)
+            float(test_to_check)
             return True
         except ValueError:
             return False
     elif kind == 'alpha':
-        return s.isalpha()
+        return test_to_check.isalpha()
     else:
         return False
 def editcharacters(database):
