@@ -126,6 +126,10 @@ def inventory_management(database, character_name, player_class):
                     player_item_slot = "Armor"
                 Items_Dictonaties["Inventory"].append(player_item_slot)
                 player_item_class = input("What is the required class of the item(If no required one then type None):").capitalize().strip()
+                if player_item_class not in ["None","Warrior","Fighter","Rogue","Cleric","Sorcerer","Mage","Wizard","Paladin","Ranger","Druid","Bard","Monk","Barbarian"]:
+                    print("That is not a valid class.")
+                if player_item_class == "None":
+                    player_item_class = "Any"
                 Items_Dictonaties["Inventory"].append(player_item_class)
                 for x in Items_Dictonaties["Inventory"]:
                         val += 1

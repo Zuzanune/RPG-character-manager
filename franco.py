@@ -42,12 +42,13 @@ def viewchars(data):
 
     count = 1
     for character in characterkeys:
+        count += 1
         characternameandlistnum[count] = character
         char_race = data[character]["simpleinfo"][0]
         char_class = data[character]["simpleinfo"][1]
         char_level = data[character]["level"]
         print(f"{count}. {character} : {char_race}, {char_class}, {char_level}")
-        count += 1
+        
 
     print("\nWould you like to:\n1. Select\n2. Sort\n3. Main Menu")
 
@@ -62,6 +63,13 @@ def viewchars(data):
             mainmenu(data)
 
 def select(data, selectionmenu):
+    print("\nCharacters:")
+    for num, character in selectionmenu.items():
+        char_race = data[character]["simpleinfo"][0]
+        char_class = data[character]["simpleinfo"][1]
+        char_level = data[character]["level"]
+        print(f"{num}. {character} : {char_race}, {char_class}, {char_level}")
+    
     print("\nWhich character do you want to select? (Refer to the list of characters above)")
 
     characternum = inputchecker(len(selectionmenu))
