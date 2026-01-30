@@ -179,7 +179,7 @@ def createcharacters(data):
     #list of dnd classes
     availableclasses = ["Barbarian", "Bard", "Cleric", "Druid", "Fighter", "Monk", "Paladin", "Ranger", "Rogue", "Sorcerer", "Warlock", "Wizard", "Artificer"]
     class_stat_increases = {"Barbarian": {"strength": 2, "constitution": 1}, "bard": {"charisma": 2, "dexterity": 1}, "cleric": {"wisdom": 2, "charisma": 1}, "druid": {"wisdom": 2, "constitution": 1}, "fighter": {"strength": 2, "constitution": 1}, "monk": {"dexterity": 2, "wisdom": 1}, "paladin": {"strength": 2, "charisma": 1}, "ranger": {"dexterity": 2, "wisdom": 1}, "rogue": {"dexterity": 2, "intelligence": 1}, "sorcerer": {"charisma": 2, "constitution": 1}, "warlock": {"charisma": 2, "wisdom": 1}, "wizard": {"intelligence": 2, "wisdom": 1}, "artificer": {"intelligence": 2, "constitution": 1}}
-    characterclass = input("What is the class of this character? ")
+    characterclass = input("What is the class of this character? ").lower().capitalize().strip()
     def increasestatsbyclass():
         class_lower = characterclass.lower()
         normalized = {k.lower(): v for k, v in class_stat_increases.items()}
@@ -197,7 +197,7 @@ def createcharacters(data):
         print("Please enter a valid class.")
         for i in availableclasses:
             print(f"- {i}")
-        characterclass = input("What is the class of this character? ")
+        characterclass = input("What is the class of this character? ").strip().lower().capitalize()
     applied_increases = increasestatsbyclass()
     while True:
         characterlevel = input("What is the level of the characters? ")
