@@ -1,3 +1,21 @@
+def validate_input(text, kind='int'):
+    s = str(text).strip().capitalize()
+    if kind == 'int':
+        try:
+            int(s)
+            return True
+        except ValueError:
+            return False
+    elif kind == 'float':
+        try:
+            float(s)
+            return True
+        except ValueError:
+            return False
+    elif kind == 'alpha':
+        return s.isalpha()
+    else:
+        return False
 def editcharacters(database):
     print("\nWhich character would you like to edit? ")
     for i, character in enumerate(database.keys()):
@@ -146,7 +164,7 @@ def editing(database, character_name):
 
         
         if stat_is_valid:
-            # Map input to actual stat name
+            # Map input to actual stat name. dont get confused team
             stat_name_map = {
                 "strength": "strength", "str": "strength", "1": "strength",
                 "dexterity": "dexterity", "dex": "dexterity", "2": "dexterity",
@@ -158,7 +176,12 @@ def editing(database, character_name):
                 "armor class": "armor class", "ac": "armor class", "7": "armor class"
             }
             actual_stat_name = stat_name_map.get(statToEdit, statToEdit)
-            newStatValue = input(f"What would you like to change {actual_stat_name} to? ").strip()
+            while True:
+                newStatValue = input(f"What would you like to change {actual_stat_name} to? ").strip()
+                if not validate_input(newStatValue, 'int'):
+                    print("Please enter a numeric value.")
+                    continue
+                break
 
                     
             match statToEdit:
@@ -185,5 +208,4 @@ def editing(database, character_name):
                 break
 
         else:
-                print("\nInvalid stat name. Please try again.")
-    
+                print("Invalid stat name. Please try again.")
