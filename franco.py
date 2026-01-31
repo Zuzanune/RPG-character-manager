@@ -32,7 +32,8 @@ def inputchecker(rangeofchoices):
                     print("That's not an option :(")
                     continue
             except:
-                    continue
+                print("Please enter a valid integer number.")
+                continue
             
     return choicevar
 
@@ -117,9 +118,9 @@ def sortoptions(data, *typeindex):
     count = 1
     for character in characternames:
 
-        if data[character]["simpleinfo"][typeindex] not in previoustypes:
+        if data[character]["simpleinfo"][typeindex] not in previoustypes: 
             previoustypes.append(data[character]["simpleinfo"][typeindex])
-            print(f"{count}. {data[character]["simpleinfo"][typeindex]}")
+            print(f"{count}. {data[character]['simpleinfo'][typeindex]}")
             typelist[count] = data[character]["simpleinfo"][typeindex]
             count += 1
 
@@ -243,7 +244,6 @@ def createcharacters(data):
 def mainmenu(database):
     while True:
         print("\nYou may:\n1. View Characters\n2. Create Character\n3. Edit Characters\n4. Exit")
-
         functionchoice = inputchecker(4)
         if functionchoice == 1:
             print("\n")
