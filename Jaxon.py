@@ -1,19 +1,3 @@
-"""
-Function for inventory_management(Chardata):
-Display inventory
-Receive players input if they want to edit it
-Yes:
-	Get item player wants to edit
-	Check if they can use that item(By using the information the item has)
-	If they can swap out item if not then repeat until they chose to leave or  it works
-	Ask if they want to edit more if not return inventory and exit
-No:
-	Exit the function
-
-
-"""
-
-
 #Example dictonary Items_Dictonaties = {"Weapon":[#item name,#Slot type.#class required,#Weight,],"Armor":[],"Inventory":{} }
 Items_Dictonaties = {"Weapon":["Sword","Weapon","none"],"Armor":["Iron Armor","Armor","none"],"Inventory":["Daggers","Weapon","Rouge","Staff","Weapon","None"]}
 
@@ -84,14 +68,5 @@ def inventory_management(Items_Dictonaties,player_class):
             if players_selected_action == "3":
                 asking = False
             
-
-                    
-                
-                
-
-
-        
-
-
 
 inventory_management(Items_Dictonaties,"None")

@@ -45,8 +45,8 @@ def viewchars(data):
         characternameandlistnum[count] = character
         char_race = data[character]["simpleinfo"][0]
         char_class = data[character]["simpleinfo"][1]
-        char_level = data[character]["level"]
-        print(f"{count}. {character} : {char_race}, {char_class}, {char_level}")
+        char_level = data[character]["level"][0]
+        print(f"{count}.\n  - Name : {character}\n  - Race : {char_race}\n  - Class(AKA job) : {char_class}\n  - Level : {char_level}")
         count += 1
         
 
@@ -67,8 +67,8 @@ def select(data, selectionmenu):
     for num, character in selectionmenu.items():
         char_race = data[character]["simpleinfo"][0]
         char_class = data[character]["simpleinfo"][1]
-        char_level = data[character]["level"]
-        print(f"{num}. {character} : {char_race}, {char_class}, {char_level}")
+        char_level = data[character]["level"][0]
+        print(f"{num}.\n  - Name : {character}\n  - Race : {char_race}\n  - Class(AKA job) : {char_class}\n  - Level : {char_level}")
     
     print("\nWhich character do you want to select? (Refer to the list of characters above)")
 
@@ -77,8 +77,8 @@ def select(data, selectionmenu):
 
     char_race = data[character]["simpleinfo"][0]
     char_class = data[character]["simpleinfo"][1]
-    char_level = data[character]["level"]
-    print(f"{character} : {char_race}, {char_class}, {char_level}")
+    char_level = data[character]["level"][0]
+    print(f"  - Name : {character}\n  - Race : {char_race}\n  - Class(AKA job) : {char_class}\n  - Level : {char_level}")
 
     print("\nInventory: ")
     for itemslot in data[character]["Items_Dictionary"].keys():
@@ -88,9 +88,13 @@ def select(data, selectionmenu):
             print(f"   - {itemslot}: {item[0]} it is a {item[1]}, and {item[2]} can use it!")
         except:
             continue
-
+    
+    print("\nSkills:\n") 
     for skill in data[character]["skills"]:
-        print(f"\nSkills:\n   - {skill[0]}: {skill[1]}")
+        try:
+            print(f"  - {skill[0]}: {skill[1]}")
+        except:
+            print("  - None")
     
     count = 0
     print("\nAttributes: ")
@@ -109,33 +113,45 @@ def select(data, selectionmenu):
         case 2:
             mainmenu(data)
 
-def sortoptions(data, *typeindex):
+def sortoptions(data, typeindex):
     characternames = data.keys()
     previoustypes = []
     typelist = {}
 
+    if typeindex == 2:
+        sortitem = "level"
+        typeindex = 1
+    else:
+        sortitem = "simpleinfo"
+
     count = 1
     for character in characternames:
 
-        if data[character]["simpleinfo"][typeindex] not in previoustypes:
-            previoustypes.append(data[character]["simpleinfo"][typeindex])
-            print(f"{count}. {data[character]["simpleinfo"][typeindex]}")
-            typelist[count] = data[character]["simpleinfo"][typeindex]
+        if data[character][sortitem][typeindex] not in previoustypes:
+            previoustypes.append(data[character][sortitem][typeindex])
+            print(f"{count}. {data[character][sortitem][typeindex]}")
+            typelist[count] = data[character][sortitem][typeindex]
             count += 1
 
     return typelist
 
-def sorter(data, choice, types, *typeindex):
+def sorter(data, choice, types, typeindex):
     characterkeys = data.keys()
     characternameandlistnum = {}
+
+    if typeindex == 2:
+        sortitem = "level"
+        typeindex = 1
+    else:
+        sortitem = "simpleinfo"
 
     count = 1
     print("\n")
     for character in characterkeys:
-        if data[character]["simpleinfo"][typeindex] == types[choice]:
+        if data[character][sortitem][typeindex] == types[choice]:
             characternameandlistnum[count] = character
 
-            print(f"{count}. {character} : {data[character]["simpleinfo"][0]}, {data[character]["simpleinfo"][1]}, {data[character]["level"]}")
+            print(f"{count}.\n  - Name : {character}\n  - Race : {data[character][sortitem][0]}\n  - Class(AKA job) : {data[character][sortitem][1]}\n  - Level : {data[character]["level"][0]}")
             count += 1
 
     print("\nWould you like to:\n1. Select\n2. Main menu")
@@ -163,6 +179,7 @@ def sortchoice(data):
         case 3:
             distinct = sortoptions(data, 2)
             choice = inputchecker(len(distinct))
+            typeindex = 2
     try:
         sorter(data, choice, distinct, typeindex)
     except:
@@ -174,12 +191,13 @@ def createcharacters(data):
 
         if charactername not in data.keys():
             break
-    
+
     characterrace = input("What is the race of this character? ")
     #list of dnd classes
     availableclasses = ["Barbarian", "Bard", "Cleric", "Druid", "Fighter", "Monk", "Paladin", "Ranger", "Rogue", "Sorcerer", "Warlock", "Wizard", "Artificer"]
     class_stat_increases = {"Barbarian": {"strength": 2, "constitution": 1}, "bard": {"charisma": 2, "dexterity": 1}, "cleric": {"wisdom": 2, "charisma": 1}, "druid": {"wisdom": 2, "constitution": 1}, "fighter": {"strength": 2, "constitution": 1}, "monk": {"dexterity": 2, "wisdom": 1}, "paladin": {"strength": 2, "charisma": 1}, "ranger": {"dexterity": 2, "wisdom": 1}, "rogue": {"dexterity": 2, "intelligence": 1}, "sorcerer": {"charisma": 2, "constitution": 1}, "warlock": {"charisma": 2, "wisdom": 1}, "wizard": {"intelligence": 2, "wisdom": 1}, "artificer": {"intelligence": 2, "constitution": 1}}
     characterclass = input("What is the class of this character? ").lower().capitalize().strip()
+
     def increasestatsbyclass():
         class_lower = characterclass.lower()
         normalized = {k.lower(): v for k, v in class_stat_increases.items()}
@@ -192,15 +210,20 @@ def createcharacters(data):
         else:
             print(f"No stat increases found for class: {characterclass}")
             return {}
-        
+            
     while characterclass not in availableclasses:
         print("Please enter a valid class.")
         for i in availableclasses:
             print(f"- {i}")
         characterclass = input("What is the class of this character? ").strip().lower().capitalize()
+
     applied_increases = increasestatsbyclass()
+
     while True:
+        charlevelsemipacker = []
         characterlevel = input("What is the level of the characters? ")
+
+        charlevelsemipacker.append(characterlevel)
 
         if not validate_input(characterlevel, 'int'):
             print("\nPlease enter a valid integer number.")
@@ -229,12 +252,12 @@ def createcharacters(data):
             if stat_lower in attributeslist:
                 idx = attributeslist.index(stat_lower)
                 attributesscores[idx] += inc
-    specificdata = {charactername:{
-        "simpleinfo":(characterrace, characterclass),
-        "level": int(characterlevel),
-        "Items_Dictionary": {"Weapon": ["None", "Weapon", "None"], "Armor": ["None", "Armor", "None"], "Inventory": []},
-        "skills": set(),
-        "attributes": [attributeslist, attributesscores]
+    specificdata = {(charactername):{
+        ("simpleinfo"):(characterrace, characterclass),
+        ("level"): int(characterlevel),
+        ("Items_Dictionary"): {("Weapon"): ["None", "Weapon", "None"], ("Armor"): ["None", "Armor", "None"], ("Inventory"): []},
+        ("skills"): set(),
+        ("attributes"): [attributeslist, attributesscores]
     }}
 
     data.update(specificdata)
@@ -256,8 +279,7 @@ def mainmenu(database):
             print("\nExiting...")
             sys.exit()
 
-
 if __name__ == "__main__":
-    print("Hello! This is a simple character management software")
+    print("Hello! This is a simple DnD-based character management software.\nAs such, there may be some inconsistencies with the game itself.\n")
     from main import database
     mainmenu(database)
