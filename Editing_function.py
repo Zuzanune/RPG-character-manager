@@ -18,9 +18,18 @@ def validate_input(text, kind='int'):
         return False
 def editcharacters(database):
     print("\nWhich character would you like to edit? ")
+    count = 0
     for i, character in enumerate(database.keys()):
+        count += 1
         print(f"{i+1}. {character}")
-    choice = int(input("\nEnter the number of the character you want to edit: ")) - 1
+    choice = input("\nEnter the number of the character you want to edit, or type q to return to the main menu: ").strip()
+    if not validate_input(choice, 'int'):
+        return
+    choice = int(choice)   
+    if choice < 1 or choice > count:
+        print("Invalid choice.")
+        return
+    choice -= 1
     character_name = list(database.keys())[choice]
     while True:
         print(f"\nEditing {character_name}")
