@@ -120,7 +120,7 @@ def sortoptions(data, typeindex):
 
     if typeindex == 2:
         sortitem = "level"
-        typeindex = 1
+        typeindex = 0
     else:
         sortitem = "simpleinfo"
 
@@ -141,7 +141,7 @@ def sorter(data, choice, types, typeindex):
 
     if typeindex == 2:
         sortitem = "level"
-        typeindex = 1
+        typeindex = 0
     else:
         sortitem = "simpleinfo"
 
@@ -151,7 +151,7 @@ def sorter(data, choice, types, typeindex):
         if data[character][sortitem][typeindex] == types[choice]:
             characternameandlistnum[count] = character
 
-            print(f"{count}.\n  - Name : {character}\n  - Race : {data[character][sortitem][0]}\n  - Class(AKA job) : {data[character][sortitem][1]}\n  - Level : {data[character]["level"][0]}")
+            print(f"{count}.\n  - Name : {character}\n  - Race : {data[character]["simpleinfo"][0]}\n  - Class(AKA job) : {data[character]["simpleinfo"][1]}\n  - Level : {data[character][sortitem][0]}")
             count += 1
 
     print("\nWould you like to:\n1. Select\n2. Main menu")
@@ -183,7 +183,7 @@ def sortchoice(data):
     try:
         sorter(data, choice, distinct, typeindex)
     except:
-        sorter(data, choice, distinct)
+        sorter(data, choice, distinct, typeindex)
 
 def createcharacters(data):
     while True:
